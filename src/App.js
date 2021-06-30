@@ -1,5 +1,5 @@
 import Navigation from "./components/navigation/Navigation";
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import Logo from "./components/Logo/Logo";
 import ImageLinkForm from "./components/ImageLinkFrom/ImageLinkFrom";
 import Rank from "./components/Rank/Rank";
@@ -19,10 +19,16 @@ const param=  {
     }
   }
 
-class App  extends Component {
-  
-  render(){
+function App ()  {
+const on_change =(event)=>{
+  console.log(event.target.value)
 
+}
+const onbuttonsubmit=()=>{
+  console.log('event')
+}
+const[input,setinput]=useState('')
+  
   
   return (
     <div>
@@ -32,13 +38,13 @@ class App  extends Component {
       <Navigation />
       <Logo />
       <Rank/>
-      <ImageLinkForm />
+      <ImageLinkForm onchange={on_change} onbuttonsubmit={onbuttonsubmit} />
       {/*
       <FaceRecognition />
       */}
     </div>
   );
-    };
+    
 }
 
 export default App;
