@@ -1,5 +1,5 @@
 import Navigation from "./components/navigation/Navigation";
-import React, { Component, useState } from "react";
+import React, { Component, useEffect, useState } from "react";
 import Logo from "./components/Logo/Logo";
 import ImageLinkForm from "./components/ImageLinkFrom/ImageLinkFrom";
 import Rank from "./components/Rank/Rank";
@@ -28,6 +28,35 @@ const param=  {
   }
 
 function App ()  {
+  const[user,setuser]=useState({
+  id:'',
+  name:'',
+  email:'',
+  password:'',
+  entries:0,
+  joined:'',
+
+})
+const requestOptions = {
+  method: 'PUT',
+  headers: { 'Content-Type': 'application/json' },
+  body:JSON.stringify(
+      {
+          id:user.id
+          
+      }
+  )
+};
+const on_submit=async (event)=>{
+  onbuttonsubmit()
+  event.preventDefault()
+
+  const res = await fetch('http://localhost:3000/image',requestOptions)
+  const data = await res.json()
+  setuser(data)
+
+}
+  
 const boxtracing=(data)=>{
   const location=document.getElementById("image1")
   const width=location.width
@@ -44,14 +73,27 @@ const on_change =(event)=>{
   setinput(event.target.value)
 
 }
+const update_user=(data)=>{
+  setuser({
+    id:data.id,
+    name:data.name,
+    email:data.email,
+    password:data.password,
+    entries:data.entries,
+    joined:new Date(),
+  })
+
+}
+
 const onbuttonsubmit=()=>{
+
   seturl(input)
   app.models.predict(
     Clarifai.FACE_DETECT_MODEL,
     url
   )
   .then(
-    function(response){
+    response=>{
       const data=response.outputs[0].data.regions[0].region_info.bounding_box
       const cst =boxtracing(data)
       setbox(cst)
@@ -63,6 +105,7 @@ const onbuttonsubmit=()=>{
     }
 
   );
+
 }
 const onroutchange=(route)=>{
   setroute(route)
@@ -71,12 +114,14 @@ const[input,setinput]=useState('')
 const[url,seturl]=useState('')
 const[box,setbox]=useState({})
 const[route,setroute]=useState('signin')
+
+
 if(route==='signin'){
   return(
     <div>
       <Particles className="start" params={param}/>
       <Navigation onroutchange={onroutchange} route={route}  />
-      <SignIN onroutchange={onroutchange}/>
+      <SignIN onroutchange={onroutchange} update_user={update_user}/>
     </div>
   );
 }
@@ -86,8 +131,8 @@ else if(route==='home'){
       <Particles className="start" params={param}/>
       <Navigation onroutchange={onroutchange} route={route}  />
       <Logo />
-        <Rank/>
-        <ImageLinkForm onchange={on_change} onbuttonsubmit={onbuttonsubmit} />
+        <Rank user={user}/>
+        <ImageLinkForm onchange={on_change} onbuttonsubmit={on_submit} user={user} />
         <FaceRecognition url={url} box={box}/>
     </div>
   )
@@ -97,7 +142,8 @@ else{
   <div>
       <Particles className="start" params={param}/>
       <Navigation onroutchange={onroutchange} route={route}  />
-      <Register onroutchange={onroutchange}/>
+      <Register update_user={update_user
+      } onroutchange={onroutchange}/>
     </div>
   );
 

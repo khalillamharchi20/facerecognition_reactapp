@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './ImageLinkForm.css'
 const ImageLinkForm = ({onchange,onbuttonsubmit}) =>{
+    
     return(
         <div>
             <p className="f3 center">
