@@ -41,7 +41,7 @@ const Register=({onroutchange,update_user})=>{
         }
         else {
             onroutchange('home')
-            update_user(data)
+            update_user(data[0])
 
         }
 

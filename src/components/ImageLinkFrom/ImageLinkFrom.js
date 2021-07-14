@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
+import Rank from '../Rank/Rank'
 import './ImageLinkForm.css'
-const ImageLinkForm = ({onchange,onbuttonsubmit}) =>{
+const ImageLinkForm = ({onchange,onbuttonsubmit,user}) =>{
     
     return(
         <div>

@@ -25,6 +25,7 @@ const SignIN=({onroutchange,update_user})=>{
 
         const res = await fetch('http://localhost:3000/signin',requestOptions)
         const data = await res.json()
+        console.log(data)
        
         if (data==='failed')
         {
@@ -33,7 +34,7 @@ const SignIN=({onroutchange,update_user})=>{
         }
         else{
                 onroutchange('home')
-                update_user(data)
+                update_user(data[0])
 
             
         }

@@ -32,7 +32,6 @@ function App ()  {
   id:'',
   name:'',
   email:'',
-  password:'',
   entries:0,
   joined:'',
 
@@ -47,15 +46,16 @@ const requestOptions = {
       }
   )
 };
-const on_submit=async (event)=>{
+const On_submit=async (event)=>{
   onbuttonsubmit()
   event.preventDefault()
 
   const res = await fetch('http://localhost:3000/image',requestOptions)
   const data = await res.json()
-  setuser(data)
+  update_user(data[0])
 
 }
+
   
 const boxtracing=(data)=>{
   const location=document.getElementById("image1")
@@ -78,7 +78,6 @@ const update_user=(data)=>{
     id:data.id,
     name:data.name,
     email:data.email,
-    password:data.password,
     entries:data.entries,
     joined:new Date(),
   })
@@ -132,7 +131,7 @@ else if(route==='home'){
       <Navigation onroutchange={onroutchange} route={route}  />
       <Logo />
         <Rank user={user}/>
-        <ImageLinkForm onchange={on_change} onbuttonsubmit={on_submit} user={user} />
+        <ImageLinkForm onchange={on_change} onbuttonsubmit={On_submit} user={user} />
         <FaceRecognition url={url} box={box}/>
     </div>
   )
